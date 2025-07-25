@@ -4,11 +4,18 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
+import { useAppContext } from "./context/AppContext";
+import Login from "./components/Login";
+import AllProduct from "./pages/AllProduct";
+import ProductCategory from "./pages/ProductCategory";
+import ProductDetails from "./pages/ProductDetails";
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
+  const { showUserLogin } = useAppContext();
   return (
     <div>
       {isSellerPath ? null : <Navbar />}
+      {showUserLogin ? <Login /> : null}
 
       <Toaster />
       <div
@@ -16,6 +23,9 @@ const App = () => {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/products" element={<AllProduct />} />
+          <Route path="/products/:category" element={<ProductCategory />} />
+          <Route path="/products/:category/:id" element={<ProductDetails />} />
         </Routes>
       </div>
       {!isSellerPath && <Footer />}
